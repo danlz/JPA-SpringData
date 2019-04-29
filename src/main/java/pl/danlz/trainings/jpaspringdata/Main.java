@@ -30,6 +30,8 @@ public class Main {
             dataSource.setDatabaseName(databaseName);
             dataSource.setUser(databaseUser);
             dataSource.setPassword(databasePassword);
+            // time zone should be configured in server
+            //dataSource.setServerTimezone("GMT+1");
 
             Connection connection = dataSource.getConnection();
 
