@@ -1,50 +1,39 @@
 package pl.danlz.trainings.jpaspringdata;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.danlz.trainings.jpaspringdata.entities.Car;
+import pl.danlz.trainings.jpaspringdata.entities.ControlUnit;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class Main {
 
-    private static final String SERVER_NAME = "localhost";
-    private static final int DATABASE_PORT = 3306;
-    private static final String DATABASE_NAME = "jpa_training";
-    private static final String DATABASE_USER = "app_user";
-    private static final String DATABASE_PASSWORD = "app_pass";
+    private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+
+    private static final String PERSISTENCE_UNIT_NAME = "jpa_training";
 
     public static void main(String[] args) {
 
-        printMySqlVersion(SERVER_NAME, DATABASE_PORT, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
-    }
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager entityManager = factory.createEntityManager();
 
-    /**
-     * Prints version of MySQL server.
-     */
-    private static void printMySqlVersion(String serverName, int port, String databaseName, String databaseUser, String databasePassword) {
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setServerName(serverName);
-            dataSource.setPort(port);
-            dataSource.setDatabaseName(databaseName);
-            dataSource.setUser(databaseUser);
-            dataSource.setPassword(databasePassword);
-            // time zone should be configured in server
-            //dataSource.setServerTimezone("GMT+1");
 
-            Connection connection = dataSource.getConnection();
+        Car car = entityManager.find(Car.class, 1);
 
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT @@version");
-            resultSet.next();
-            String mySqlVersion = resultSet.getString("@@version");
-            resultSet.close();
+        LOG.info("CAR: {}", car);
+        LOG.info("CAR --> CONTROL_UNITS: {}", car.getControlUnits());
 
-            connection.close();
 
-            System.out.println("MySQL version: " + mySqlVersion);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ControlUnit controlUnit = entityManager.find(ControlUnit.class, 11);
+
+        LOG.info("CONTROL UNIT: {}", controlUnit);
+        LOG.info("CONTROL UNIT --> CAR: {}", controlUnit.getCar());
+
+
+        entityManager.close();
+        factory.close();
     }
 }

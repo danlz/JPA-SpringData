@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This is a JPA mapping file, not a native Hibernate mapping file.
+-->
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+
+    <entity class="pl.danlz.trainings.jpaspringdata.entities.ControlUnit" access="FIELD">
+        <table name="control_unit"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <basic name="typeCode">
+                <column name="type_code"/>
+            </basic>
+            <basic name="serialNumber">
+                <column name="serial_number"/>
+            </basic>
+            <many-to-one name="car">
+                <join-column name="fk_car"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+
+</entity-mappings>

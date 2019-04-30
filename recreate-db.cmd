@@ -8,5 +8,5 @@ set CURRENT_DIR=%CD%
 
 
 cd %SQL_DIR%
-mysql -u root -p -Be "SOURCE dropDB.sql; SOURCE createDB.sql;"
+mysql -u root -p -Be "SOURCE dropDB.sql; SOURCE createDB.sql; USE jpa_training; SOURCE createTables.sql; SOURCE sampleData.sql;"
 cd %CURRENT_DIR%
