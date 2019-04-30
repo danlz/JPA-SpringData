@@ -34,7 +34,7 @@ public class Car {
     @Column(name = "production_date")
     private LocalDateTime productionDate;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
     private List<ControlUnit> controlUnits = new ArrayList<>();
 
 

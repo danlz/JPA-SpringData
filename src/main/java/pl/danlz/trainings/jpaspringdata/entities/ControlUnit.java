@@ -1,16 +1,25 @@
 package pl.danlz.trainings.jpaspringdata.entities;
 
+import javax.persistence.*;
+
+@Entity
 public class ControlUnit {
 
     /**
      * Id is generated in the DB. That's why there is no setter in the class.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "type_code")
     private String typeCode;
 
+    @Column(name = "serial_number")
     private String serialNumber;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_car")
     private Car car;
 
 
