@@ -16,3 +16,14 @@ CREATE TABLE control_unit (
 
 ALTER TABLE control_unit
     ADD CONSTRAINT fk_car FOREIGN KEY (fk_car) REFERENCES car(id);
+
+CREATE TABLE diag_object (
+    object_id INT NOT NULL,
+    object_branch INT NOT NULL,
+    object_version INT NOT NULL,
+    technical_name VARCHAR(80) NOT NULL,
+    description VARCHAR(255),
+    object_status VARCHAR(20) NOT NULL,
+    created DATE NOT NULL,
+    PRIMARY KEY (object_id, object_branch, object_version)
+);

@@ -29,4 +29,8 @@ SELECT LAST_INSERT_ID() INTO @car_id;
 INSERT INTO control_unit(type_code, serial_number, fk_car) VALUES('ECU', '4P2.310.318.D', @car_id);
 
 
+INSERT INTO diag_object(object_id, object_branch, object_version, technical_name, description, object_status, created)
+    VALUES (1, 1, 1, 'RPM-MV', 'measurement of engine RPM', 'ACCEPTED', '2019-04-30');
+
+
 COMMIT;

@@ -8,8 +8,13 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import pl.danlz.trainings.jpaspringdata.entities.Car;
 import pl.danlz.trainings.jpaspringdata.entities.ControlUnit;
+import pl.danlz.trainings.jpaspringdata.entities.DiagnosticObject;
+import pl.danlz.trainings.jpaspringdata.entities.DiagnosticObjectId;
 import pl.danlz.trainings.jpaspringdata.repository.CarRepository;
 import pl.danlz.trainings.jpaspringdata.repository.ControlUnitRepository;
+import pl.danlz.trainings.jpaspringdata.repository.DiagnosticObjectRepository;
+
+import javax.transaction.Transactional;
 
 /**
  * Entry point of the application.
@@ -25,9 +30,14 @@ public class MainAppRunner implements ApplicationRunner {
     @Autowired
     private ControlUnitRepository controlUnitRepository;
 
+    @Autowired
+    private DiagnosticObjectRepository diagnosticObjectRepository;
+
     @Override
     public void run(ApplicationArguments args) {
         printObjects();
+
+        createDiagnosticObject();
     }
 
     private void printObjects() {
@@ -41,6 +51,18 @@ public class MainAppRunner implements ApplicationRunner {
 
         LOG.info("CONTROL UNIT: {}", controlUnit);
         LOG.info("CONTROL UNIT --> CAR: {}", controlUnit.getCar());
+    }
+
+    private void createDiagnosticObject() {
+        DiagnosticObject diagnosticObject = new DiagnosticObject(new DiagnosticObjectId(50, 1,1));
+        diagnosticObject.setTechnicalName("Coolant-Temp-MV");
+        diagnosticObject.setStatus(DiagnosticObject.Status.NEW);
+
+        diagnosticObjectRepository.save(diagnosticObject);
+
+        Iterable<DiagnosticObject> diagnosticObjects = diagnosticObjectRepository.findAll();
+
+        LOG.info("DIAGNOSTIC OBJECTS: {}", diagnosticObjects);
     }
 
 }
