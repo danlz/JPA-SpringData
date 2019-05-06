@@ -27,3 +27,11 @@ CREATE TABLE diag_object (
     created DATE NOT NULL,
     PRIMARY KEY (object_id, object_branch, object_version)
 );
+
+CREATE TABLE property_type (
+    property_type_name VARCHAR(50) NOT NULL,
+    property_type_version INT NOT NULL,
+    calculated BOOLEAN NOT NULL,
+    example VARCHAR(100),
+    PRIMARY KEY (property_type_name, property_type_version)
+);
