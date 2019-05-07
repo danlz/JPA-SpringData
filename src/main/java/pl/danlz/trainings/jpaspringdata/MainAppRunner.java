@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import pl.danlz.trainings.jpaspringdata.entities.Car;
-import pl.danlz.trainings.jpaspringdata.entities.ControlUnit;
-import pl.danlz.trainings.jpaspringdata.entities.DiagnosticObject;
-import pl.danlz.trainings.jpaspringdata.entities.DiagnosticObjectId;
+import pl.danlz.trainings.jpaspringdata.entities.*;
 import pl.danlz.trainings.jpaspringdata.repository.CarRepository;
 import pl.danlz.trainings.jpaspringdata.repository.ControlUnitRepository;
 import pl.danlz.trainings.jpaspringdata.repository.DiagnosticObjectRepository;
+import pl.danlz.trainings.jpaspringdata.repository.PropertyTypeRepository;
 
 import javax.transaction.Transactional;
 
@@ -33,11 +31,16 @@ public class MainAppRunner implements ApplicationRunner {
     @Autowired
     private DiagnosticObjectRepository diagnosticObjectRepository;
 
+    @Autowired
+    private PropertyTypeRepository propertyTypeRepository;
+
     @Override
     public void run(ApplicationArguments args) {
         printObjects();
 
         createDiagnosticObject();
+
+        handlePropertyTypes();
     }
 
     private void printObjects() {
@@ -63,6 +66,18 @@ public class MainAppRunner implements ApplicationRunner {
         Iterable<DiagnosticObject> diagnosticObjects = diagnosticObjectRepository.findAll();
 
         LOG.info("DIAGNOSTIC OBJECTS: {}", diagnosticObjects);
+    }
+
+    private void handlePropertyTypes() {
+        PropertyType propertyType = propertyTypeRepository.findById(new PropertyTypeId("memory.selection", 2)).get();
+
+        LOG.info("PROPERTY TYPE: {}", propertyType);
+
+        PropertyType newPropertyType = new PropertyType(new PropertyTypeId("some.type.name", 1));
+
+        propertyTypeRepository.save(newPropertyType);
+
+        LOG.info("NEW PROPERTY TYPE: {}", newPropertyType);
     }
 
 }
