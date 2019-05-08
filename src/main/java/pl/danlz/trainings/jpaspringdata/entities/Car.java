@@ -34,6 +34,10 @@ public class Car {
     @Column(name = "production_date")
     private LocalDateTime productionDate;
 
+    /**
+     * The {@code mappedBy} property tells, which property of the {@code ControlUnit} entity owns the relation.
+     * This means: which {@code ControlUnit}s belong to this {@code Car}.
+     */
     @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
     private List<ControlUnit> controlUnits = new ArrayList<>();
 

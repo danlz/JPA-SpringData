@@ -18,6 +18,10 @@ public class ControlUnit {
     @Column(name = "serial_number")
     private String serialNumber;
 
+    /**
+     * By default @ManyToOne relations are eagerly fetched.
+     * The @JoinColumn annotation tells, which column in this entity's table is used to find the matching {@code Car} entity.
+     */
     @ManyToOne
     @JoinColumn(name = "fk_car")
     private Car car;
