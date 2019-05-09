@@ -7,11 +7,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import pl.danlz.trainings.jpaspringdata.entities.*;
-import pl.danlz.trainings.jpaspringdata.repository.CarRepository;
-import pl.danlz.trainings.jpaspringdata.repository.ControlUnitRepository;
-import pl.danlz.trainings.jpaspringdata.repository.DiagnosticObjectRepository;
-import pl.danlz.trainings.jpaspringdata.repository.PropertyTypeRepository;
+import pl.danlz.trainings.jpaspringdata.repository.*;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -34,15 +32,24 @@ public class MainAppRunner implements ApplicationRunner {
     @Autowired
     private PropertyTypeRepository propertyTypeRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
+    @Transactional
     public void run(ApplicationArguments args) {
-        printObjects();
+        //printObjects();
 
         //createDiagnosticObject();
 
         //handlePropertyTypes();
 
         //handlePropertyValues();
+
+        handleUsersAndRoles();
     }
 
     private void printObjects() {
@@ -100,4 +107,26 @@ public class MainAppRunner implements ApplicationRunner {
         LOG.info("PROPERTY VALUES: {}", diagnosticObject.getPropertyValues());
     }
 
+    private void handleUsersAndRoles() {
+        Role newRole = new Role();
+        newRole.setName("new_role");
+
+        roleRepository.save(newRole);
+
+        User adminUser = userRepository.findById(1).get();
+        adminUser.addRole(newRole);
+
+        /*
+         * Save the user, because it controls the relation.
+         */
+        userRepository.save(adminUser);
+
+        LOG.info("ADMIN USER: {}", adminUser);
+        LOG.info("ADMIN USER ROLES: {}", adminUser.getRoles());
+
+        Role standardRole = roleRepository.findById(3).get();
+
+        LOG.info("STANDARD ROLE: {}", standardRole);
+        LOG.info("USERS WITH STANDARD ROLE: {}", standardRole.getUsers());
+    }
 }
