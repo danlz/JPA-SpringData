@@ -57,6 +57,28 @@ INSERT INTO property_value(object_id, object_branch, object_version, property_ty
     VALUES (1, 1, 1, 'trouble.code', 'P1455');
 
 
+INSERT INTO user(username, first_name, last_name) VALUES ('admin', 'Johnny', 'Walker');
+SELECT LAST_INSERT_ID() INTO @admin_user_id;
+INSERT INTO user(username, first_name, last_name) VALUES ('thanos', 'Thanos', NULL);
+SELECT LAST_INSERT_ID() INTO @thanos_user_id;
+INSERT INTO user(username, first_name, last_name) VALUES ('jdoe', 'John', 'Doe');
+SELECT LAST_INSERT_ID() INTO @jdoe_user_id;
+
+
+INSERT INTO role(name) VALUES ('admin_role');
+SELECT LAST_INSERT_ID() INTO @admin_role_id;
+INSERT INTO role(name) VALUES ('verifier_role');
+SELECT LAST_INSERT_ID() INTO @verifier_role_id;
+INSERT INTO role(name) VALUES ('standard_role');
+SELECT LAST_INSERT_ID() INTO @standard_role_id;
+
+
+INSERT INTO user_role(user_id, role_id) VALUES (@admin_user_id, @admin_role_id);
+INSERT INTO user_role(user_id, role_id) VALUES (@admin_user_id, @standard_role_id);
+INSERT INTO user_role(user_id, role_id) VALUES (@admin_user_id, @verifier_role_id);
+INSERT INTO user_role(user_id, role_id) VALUES (@thanos_user_id, @verifier_role_id);
+INSERT INTO user_role(user_id, role_id) VALUES (@thanos_user_id, @standard_role_id);
+INSERT INTO user_role(user_id, role_id) VALUES (@jdoe_user_id, @standard_role_id);
+
+
 COMMIT;
-
-

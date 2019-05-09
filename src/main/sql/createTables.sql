@@ -48,3 +48,28 @@ ALTER TABLE property_value
     ADD CONSTRAINT fk_diag_object FOREIGN KEY (object_id, object_branch, object_version) REFERENCES diag_object(object_id, object_branch, object_version);
 ALTER TABLE property_value
     ADD CONSTRAINT fk_property_type FOREIGN KEY (property_type_id) REFERENCES property_type(property_type_name);
+
+CREATE TABLE user (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE role (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE user_role (
+    user_id INT NOT NULL,
+    role_id INT NOT NULL,
+    PRIMARY KEY (user_id, role_id)
+);
+
+ALTER TABLE user_role
+    ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES user(id);
+ALTER TABLE user_role
+    ADD CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id);
