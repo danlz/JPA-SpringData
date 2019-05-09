@@ -38,7 +38,7 @@ public class Car {
      * The {@code mappedBy} property tells, which property of the {@code ControlUnit} entity owns the relation.
      * This means: which {@code ControlUnit}s belong to this {@code Car}.
      */
-    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private List<ControlUnit> controlUnits = new ArrayList<>();
 
 

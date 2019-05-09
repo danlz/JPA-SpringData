@@ -22,7 +22,7 @@ public class User {
      * Many to many association is represented in the database with a join table - {@code user_role} in this case.
      * The join table contains foreign keys to both ends of the association.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             /**
              * The {@code joinColumns} property tells how to join this entity's table with the join table.
