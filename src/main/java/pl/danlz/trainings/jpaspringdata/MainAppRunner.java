@@ -5,9 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import pl.danlz.trainings.jpaspringdata.entities.Car;
 import pl.danlz.trainings.jpaspringdata.service.MightyService;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 
 /**
@@ -21,13 +28,14 @@ public class MainAppRunner implements ApplicationRunner {
     @Autowired
     private MightyService mightyService;
 
+
     @Override
     public void run(ApplicationArguments args) {
         mightyService.doStuff();
 
         printCarData();
 
-        //printCarAndControlUnitsData();
+//        printCarAndControlUnitsData();
     }
 
     private void printCarData() {
@@ -44,5 +52,21 @@ public class MainAppRunner implements ApplicationRunner {
         LOG.info("CAR: {}", car);
         LOG.info("CONTROL UNITS: {}", car.getControlUnits());
     }
+
+
+
+//    @Autowired
+//    private EntityManagerFactory factory;
+//
+//    /**
+//     * Creates and registers an {@link EntityManager} in a thread-bound variable.
+//     * This allows to lazily load associations after the transaction has been committed.
+//     */
+//    @PostConstruct
+//    private void registerEntityManager() {
+//        EntityManager em = factory.createEntityManager();
+//        EntityManagerHolder emHolder = new EntityManagerHolder(em);
+//        TransactionSynchronizationManager.bindResource(factory, emHolder);
+//    }
 
 }
