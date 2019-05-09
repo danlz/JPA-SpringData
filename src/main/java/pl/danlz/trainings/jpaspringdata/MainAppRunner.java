@@ -12,7 +12,7 @@ import pl.danlz.trainings.jpaspringdata.repository.ControlUnitRepository;
 import pl.danlz.trainings.jpaspringdata.repository.DiagnosticObjectRepository;
 import pl.danlz.trainings.jpaspringdata.repository.PropertyTypeRepository;
 
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 /**
  * Entry point of the application.
@@ -41,6 +41,8 @@ public class MainAppRunner implements ApplicationRunner {
         createDiagnosticObject();
 
         handlePropertyTypes();
+
+        handlePropertyValues();
     }
 
     private void printObjects() {
@@ -69,15 +71,33 @@ public class MainAppRunner implements ApplicationRunner {
     }
 
     private void handlePropertyTypes() {
-        PropertyType propertyType = propertyTypeRepository.findById(new PropertyTypeId("memory.selection", 2)).get();
+        PropertyType propertyType = propertyTypeRepository.findById("memory.selection").get();
 
         LOG.info("PROPERTY TYPE: {}", propertyType);
 
-        PropertyType newPropertyType = new PropertyType(new PropertyTypeId("some.type.name", 1));
+        PropertyType newPropertyType = new PropertyType("some.type.name");
 
         propertyTypeRepository.save(newPropertyType);
 
         LOG.info("NEW PROPERTY TYPE: {}", newPropertyType);
+    }
+
+
+    private void handlePropertyValues() {
+        DiagnosticObject diagnosticObject = diagnosticObjectRepository.findById(new DiagnosticObjectId(1, 1, 1)).get();
+        PropertyType propertyType = propertyTypeRepository.findById("memory.selection").get();
+
+        diagnosticObject.addPropertyValue(propertyType, "0x1A00");
+
+        Optional<PropertyValue> propertyValueToBeRemoved = diagnosticObject.getPropertyValues().stream().filter(pv -> "coefficient.a0".equals(pv.getPropertyType().getName())).findFirst();
+        propertyValueToBeRemoved.ifPresent(pv -> diagnosticObject.removePropertyValue(pv));
+
+        /*
+         * Note that we are saving only the diagnostic object - property values are saved through cascade.
+         */
+        diagnosticObjectRepository.save(diagnosticObject);
+
+        LOG.info("PROPERTY VALUES: {}", diagnosticObject.getPropertyValues());
     }
 
 }

@@ -1,8 +1,7 @@
 package pl.danlz.trainings.jpaspringdata.entities;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Table(name = "diag_object")
@@ -55,6 +54,18 @@ public class DiagnosticObject {
     @Transient
     private int randomNumber = new Random().nextInt(1000);
 
+    /**
+     * We cascade the merge operation on {@code DiagnosticObject} to its {@code PropertyValue}s,
+     * ie. if {@code DiagnosticObject} is updated, its {@code PropertyValue}s also are updated.
+     * We also remove the orphaned {@code PropertyValue}s,
+     * ie. if you remove a {@code PropertyValue} from the {@code propertValues} collection,
+     * the row corresponding to the given {@code PropertyValue} object will be removed from database.
+     * You have to cascade the persist operation for {@code orphanRemoval} to work,
+     * because of this bug: <a href=https://hibernate.atlassian.net/browse/HHH-9571>HHH-9571</a>
+     */
+    @OneToMany(mappedBy = "diagnosticObject", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<PropertyValue> propertyValues = new ArrayList<>();
+
 
     /**
      * Default constructor is needed by Hibernate.
@@ -97,6 +108,20 @@ public class DiagnosticObject {
 
     public Date getCreated() {
         return created;
+    }
+
+    public List<PropertyValue> getPropertyValues() {
+        return Collections.unmodifiableList(propertyValues);
+    }
+
+    public void addPropertyValue(PropertyType type, String value) {
+        PropertyValue valueObject = new PropertyValue(this, type);
+        valueObject.setValue(value);
+        propertyValues.add(valueObject);
+    }
+
+    public void removePropertyValue(PropertyValue value) {
+        propertyValues.remove(value);
     }
 
 

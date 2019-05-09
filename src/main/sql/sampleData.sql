@@ -33,24 +33,28 @@ INSERT INTO diag_object(object_id, object_branch, object_version, technical_name
     VALUES (1, 1, 1, 'RPM-MV', 'measurement of engine RPM', 'ACCEPTED', '2019-04-30');
 
 
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('coefficient.a0', 1, FALSE, '1.5');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('coefficient.a1', 1, FALSE, '3.2');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('coefficient.a3', 1, FALSE, '500');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('priority', 1, FALSE, '3');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('display.range', 1, TRUE, '0-300');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('trouble.code', 1, FALSE, 'P1106');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('memory.selection', 1, FALSE, '0xAA');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('memory.selection', 2, FALSE, '0xAAAA');
-INSERT INTO property_type(property_type_name, property_type_version, calculated, example)
-    VALUES ('memory.selection', 3, FALSE, '0xAAAAAAAA');
+INSERT INTO property_type(property_type_name, calculated, example)
+    VALUES ('coefficient.a0', FALSE, '1.5');
+INSERT INTO property_type(property_type_name, calculated, example)
+    VALUES ('coefficient.a1', FALSE, '3.2');
+INSERT INTO property_type(property_type_name, calculated, example)
+    VALUES ('coefficient.a3', FALSE, '500');
+INSERT INTO property_type(property_type_name, calculated, example)
+    VALUES ('priority', FALSE, '3');
+INSERT INTO property_type(property_type_name, calculated, example)
+    VALUES ('display.range', TRUE, '0-300');
+INSERT INTO property_type(property_type_name, calculated, example)
+    VALUES ('trouble.code', FALSE, 'P1106');
+INSERT INTO property_type(property_type_name, calculated, example)
+    VALUES ('memory.selection', FALSE, '0xAAAA');
+
+
+INSERT INTO property_value(object_id, object_branch, object_version, property_type_id, property_value)
+    VALUES (1, 1, 1, 'coefficient.a0', '1.2');
+INSERT INTO property_value(object_id, object_branch, object_version, property_type_id, property_value)
+    VALUES (1, 1, 1, 'display.range', '0-9000');
+INSERT INTO property_value(object_id, object_branch, object_version, property_type_id, property_value)
+    VALUES (1, 1, 1, 'trouble.code', 'P1455');
 
 
 COMMIT;

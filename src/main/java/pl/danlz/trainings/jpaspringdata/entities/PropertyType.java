@@ -1,32 +1,37 @@
 package pl.danlz.trainings.jpaspringdata.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class PropertyType {
 
-    @EmbeddedId
-    @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "property_type_name", nullable = false)),
-            @AttributeOverride(name = "version", column = @Column(name = "property_type_version", nullable = false))
-    })
-    private PropertyTypeId id;
+    @Id
+    @Column(name = "property_type_name", updatable = false)
+    private String name;
 
     private boolean calculated;
 
     private String example;
 
 
-    private PropertyType() {
+    /**
+     * This constructor has to be protected, because of Hibernate bug?
+     */
+    protected PropertyType() {
     }
 
-    public PropertyType(PropertyTypeId id) {
-        this.id = id;
+    public PropertyType(String name) {
+        this.name = name;
     }
 
+    public String getId() {
+        return name;
+    }
 
-    public PropertyTypeId getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public boolean isCalculated() {
@@ -49,7 +54,7 @@ public class PropertyType {
     @Override
     public String toString() {
         return "PropertyType{" +
-                "id=" + id +
+                "name='" + name + '\'' +
                 ", calculated=" + calculated +
                 ", example='" + example + '\'' +
                 '}';
