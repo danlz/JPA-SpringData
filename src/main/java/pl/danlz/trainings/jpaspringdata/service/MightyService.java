@@ -48,7 +48,7 @@ public class MightyService {
 
         //handlePropertyValues();
 
-        handleUsersAndRoles();
+        //handleUsersAndRoles();
 
         LOG.info("Leaving the 'doStuff()' method");
     }
@@ -140,6 +140,22 @@ public class MightyService {
         LOG.info("Leaving the 'createCarWithControlUnit()' method");
 
         return newCar;
+    }
+
+    @Transactional
+    public DiagnosticObject createDiagnosticObjectWithProperty() {
+        PropertyType newPropertyType = new PropertyType("new.property.type");
+
+        propertyTypeRepository.save(newPropertyType);
+
+        DiagnosticObject newDiagnosticObject = new DiagnosticObject(new DiagnosticObjectId(100, 1,1));
+        newDiagnosticObject.setTechnicalName("NEW_Battery-Voltage-MV");
+        newDiagnosticObject.setStatus(DiagnosticObject.Status.NEW);
+        newDiagnosticObject.addPropertyValue(newPropertyType, "12.5");
+
+        diagnosticObjectRepository.save(newDiagnosticObject);
+
+        return newDiagnosticObject;
     }
 
 

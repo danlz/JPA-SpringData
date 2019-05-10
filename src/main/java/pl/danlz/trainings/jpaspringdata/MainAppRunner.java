@@ -9,10 +9,11 @@ import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import pl.danlz.trainings.jpaspringdata.entities.Car;
+import pl.danlz.trainings.jpaspringdata.entities.DiagnosticObject;
+import pl.danlz.trainings.jpaspringdata.entities.PropertyValue;
 import pl.danlz.trainings.jpaspringdata.service.MightyService;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -31,9 +32,9 @@ public class MainAppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        mightyService.doStuff();
+//        mightyService.doStuff();
 
-        printCarData();
+//        printCarData();
 
 //        printCarAndControlUnitsData();
 
@@ -42,6 +43,8 @@ public class MainAppRunner implements ApplicationRunner {
 //        updateMultipleCarAttributes();
 
 //        createCarWithControlUnit();
+
+        createDiagnosticObjectWithProperty();
     }
 
     private void printCarData() {
@@ -78,19 +81,28 @@ public class MainAppRunner implements ApplicationRunner {
         LOG.info("CONTROL UNITS: {}", car.getControlUnits());
     }
 
+    private void createDiagnosticObjectWithProperty() {
+        DiagnosticObject diagnosticObject = mightyService.createDiagnosticObjectWithProperty();
 
-//    @Autowired
-//    private EntityManagerFactory factory;
-//
-//    /**
-//     * Creates and registers an {@link EntityManager} in a thread-bound variable.
-//     * This allows to lazily load associations after the transaction has been committed.
-//     */
-//    @PostConstruct
-//    private void registerEntityManager() {
-//        EntityManager em = factory.createEntityManager();
-//        EntityManagerHolder emHolder = new EntityManagerHolder(em);
-//        TransactionSynchronizationManager.bindResource(factory, emHolder);
-//    }
+        LOG.info("DIAGNOSTIC OBJECT: {}", diagnosticObject);
+        for (PropertyValue propertyValue : diagnosticObject.getPropertyValues()) {
+            LOG.info("   PROPERTY VALUE: {}   PROPERTY TYPE: {}", propertyValue.getValue(), propertyValue.getPropertyType());
+        }
+    }
+
+
+    @Autowired
+    private EntityManagerFactory factory;
+
+    /**
+     * Creates and registers an {@link EntityManager} in a thread-bound variable.
+     * This allows to lazily load associations after the transaction has been committed.
+     */
+    @PostConstruct
+    private void registerEntityManager() {
+        EntityManager em = factory.createEntityManager();
+        EntityManagerHolder emHolder = new EntityManagerHolder(em);
+        TransactionSynchronizationManager.bindResource(factory, emHolder);
+    }
 
 }
