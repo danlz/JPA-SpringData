@@ -6,6 +6,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = "find_by_modelCode_containing",
+                /**
+                 * You cannot use the % sign directly in a named query, that't why we use the JPQL CONCAT function.
+                */
+                query = "select c from Car c where c.modelCode like CONCAT('%', :modelCodePart, '%')"
+        )
+})
+@NamedNativeQuery(name = "find_by_modelCode_containing_native",
+        /**
+         * You cannot use the % sign directly in a named query, that't why we use the SQL CONCAT function.
+        */
+        query = "SELECT * FROM car where model_code like CONCAT('%', :modelCodePart, '%')",
+        /**
+         * You have to specify to which class map the result.
+        */
+        resultClass = Car.class
+)
 @Entity
 @Table(name = "car")
 public class Car {

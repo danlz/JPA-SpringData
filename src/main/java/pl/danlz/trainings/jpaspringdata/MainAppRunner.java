@@ -32,6 +32,10 @@ public class MainAppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        printQueryResult(
+                mightyService.findCars()
+        );
+
 //        mightyService.doStuff();
 
 //        printCarData();
@@ -44,7 +48,7 @@ public class MainAppRunner implements ApplicationRunner {
 
 //        createCarWithControlUnit();
 
-        createDiagnosticObjectWithProperty();
+//        createDiagnosticObjectWithProperty();
     }
 
     private void printCarData() {
@@ -87,6 +91,20 @@ public class MainAppRunner implements ApplicationRunner {
         LOG.info("DIAGNOSTIC OBJECT: {}", diagnosticObject);
         for (PropertyValue propertyValue : diagnosticObject.getPropertyValues()) {
             LOG.info("   PROPERTY VALUE: {}   PROPERTY TYPE: {}", propertyValue.getValue(), propertyValue.getPropertyType());
+        }
+    }
+
+    private void printQueryResult(Object o) {
+        LOG.info("QUERY RESULT:");
+        if (o instanceof Iterable) {
+            int count = 0;
+            for (Object elem : (Iterable) o) {
+                LOG.info("{}", elem);
+                count++;
+            }
+            LOG.info("ITEMS FOUND: {}", count);
+        } else {
+            LOG.info("{}", o);
         }
     }
 

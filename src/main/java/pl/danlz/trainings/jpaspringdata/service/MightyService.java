@@ -3,12 +3,14 @@ package pl.danlz.trainings.jpaspringdata.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.danlz.trainings.jpaspringdata.entities.*;
 import pl.danlz.trainings.jpaspringdata.repository.*;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +39,7 @@ public class MightyService {
     @Autowired
     private ControlUnitService controlUnitService;
 
+
     public void doStuff() {
         LOG.info("Entering the 'doStuff()' method");
 
@@ -52,6 +55,20 @@ public class MightyService {
 
         LOG.info("Leaving the 'doStuff()' method");
     }
+
+    @Transactional
+    public List<Car> findCars() {
+        return carRepository.findByModelCode("RS3");
+        //return carRepository.findByModelCodeContaining("S");
+        //return carRepository.findByControlUnitsTypeCode("AC");
+        //return carRepository.findByControlUnitsTypeCode("AC", Sort.by(Sort.Direction.DESC, "modelCode"));
+        //return carRepository.findTop3ByVinContainingOrderByModelCodeAsc("2345");
+
+        //return carRepository.findByModelCodeContainingCustomQuery("S");
+        //return carRepository.findByModelCodeContainingNativeQuery("S");
+    }
+
+
 
     /**
      * The {@code @Transactional} annotation tells that the method will be executed in a transaction.
