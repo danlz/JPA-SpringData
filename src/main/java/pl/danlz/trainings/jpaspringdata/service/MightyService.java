@@ -3,8 +3,9 @@ package pl.danlz.trainings.jpaspringdata.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.danlz.trainings.jpaspringdata.dto.CarSearchResultDTO;
+import pl.danlz.trainings.jpaspringdata.dto.SimpleCarDTO;
 import pl.danlz.trainings.jpaspringdata.entities.*;
 import pl.danlz.trainings.jpaspringdata.repository.*;
 
@@ -12,6 +13,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MightyService {
@@ -67,6 +69,36 @@ public class MightyService {
         //return carRepository.findByModelCodeContainingCustomQuery("S");
         //return carRepository.findByModelCodeContainingNativeQuery("S");
     }
+
+    /**
+     * Check what SQL queries are executed when this method is called.
+     */
+    @Transactional
+    public List<SimpleCarDTO> findSimpleCars(String modelCodePart) {
+        LOG.info("====== findSimpleCars() ======");
+        return carRepository.findSimpleCarsByModelCodeContaining(modelCodePart);
+    }
+
+    /**
+     * Check what SQL queries are executed when this method is called.
+     */
+    @Transactional
+    public List<CarSearchResultDTO> searchForCarsVersion1(String modelCodePart) {
+        LOG.info("====== searchForCarsVersion1() ======");
+        List<Car> cars = carRepository.findByModelCodeContaining(modelCodePart);
+        List<CarSearchResultDTO> carDTOs = cars.stream().map(c -> new CarSearchResultDTO(c.getId(), c.getVin(), new Long(c.getControlUnits().size()))).collect(Collectors.toList());
+        return carDTOs;
+    }
+
+    /**
+     * Check what SQL queries are executed when this method is called.
+     */
+    @Transactional
+    public List<CarSearchResultDTO> searchForCarsVersion2(String modelCodePart) {
+        LOG.info("====== searchForCarsVersion2() ======");
+        return carRepository.searchCars(modelCodePart);
+    }
+
 
 
 

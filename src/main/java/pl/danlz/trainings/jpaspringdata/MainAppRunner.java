@@ -32,9 +32,13 @@ public class MainAppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        printQueryResult(
-                mightyService.findCars()
-        );
+//        printQueryResult(
+//                mightyService.findCars()
+//        );
+
+//        printQueryResult(mightyService.findSimpleCars("S"));
+//        printQueryResult(mightyService.searchForCarsVersion1("S"));
+//        printQueryResult(mightyService.searchForCarsVersion2("S"));
 
 //        mightyService.doStuff();
 
