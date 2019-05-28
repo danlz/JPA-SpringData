@@ -6,10 +6,10 @@
     </appender>
 
     <!-- Logging of SQL statements and parameter bindings -->
-<!--
+
     <logger name="org.hibernate.SQL" level="debug" />
     <logger name="org.hibernate.type.descriptor.sql" level="trace" />
--->
+
     <!-- Logging of transactions -->
 <!--
     <logger name="org.springframework.transaction" level="debug" />

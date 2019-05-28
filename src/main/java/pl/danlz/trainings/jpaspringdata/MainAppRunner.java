@@ -38,11 +38,11 @@ public class MainAppRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         printObjects();
 
-        createDiagnosticObject();
+        //createDiagnosticObject();
 
-        handlePropertyTypes();
+        //handlePropertyTypes();
 
-        handlePropertyValues();
+        //handlePropertyValues();
     }
 
     private void printObjects() {
