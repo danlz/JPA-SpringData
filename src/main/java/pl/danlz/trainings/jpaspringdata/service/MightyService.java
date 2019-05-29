@@ -8,6 +8,7 @@ import pl.danlz.trainings.jpaspringdata.entities.*;
 import pl.danlz.trainings.jpaspringdata.repository.*;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -32,6 +33,9 @@ public class MightyService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private ControlUnitService controlUnitService;
 
     public void doStuff() {
         LOG.info("Entering the 'doStuff()' method");
@@ -62,6 +66,80 @@ public class MightyService {
         LOG.info("Leaving the 'getCar()' method");
 
         return car;
+    }
+
+    /**
+     * Entity manager tracks if entities have been changed and updates the database automatically at the end of transaction.
+     *
+     * @param carId car id
+     * @return updated car
+     */
+    @Transactional
+    public Car endProduction(Integer carId) {
+        LOG.info("Entering the 'endProduction()' method");
+
+        Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("car not found - id=" + carId));
+        car.setProductionDate(LocalDateTime.now());
+
+        LOG.info("Leaving the 'endProduction()' method");
+
+        return car;
+    }
+
+    /**
+     * In general the state of entities is synchronized with the database at the end of transaction,
+     * even if the {@code save()} method of a repository is called multiple times.
+     *
+     * @param carId car id
+     * @return updated car
+     */
+    @Transactional
+    public Car updateMultipleAttributes(Integer carId) {
+        LOG.info("Entering the 'updateAllAttributes()' method");
+
+        Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("car not found - id=" + carId));
+
+        car.setProductionDate(LocalDateTime.now());
+        carRepository.save(car);
+        LOG.info("New production date saved");
+
+        car.setModelCode(car.getModelCode() + "*");
+        carRepository.save(car);
+        LOG.info("New model code saved");
+
+        LOG.info("Leaving the 'updateAllAttributes()' method");
+
+        return car;
+    }
+
+    /**
+     * Transaction assures that two operations are executed as whole or not at all.
+     *
+     * @return new car with a new control unit
+     */
+    @Transactional
+    public Car createCarWithControlUnit() {
+        LOG.info("Entering the 'createCarWithControlUnit()' method");
+
+        Car newCar = new Car();
+        newCar.setVin("WAUZZZ3Z00018888");
+        newCar.setModelCode("A1");
+
+        /*
+         * You have to save the car before saving the control unit,
+         * because the 'control_unit' table has a foreign to the 'car' table.
+         */
+        carRepository.save(newCar);
+
+        controlUnitService.createControlUnit("ECU", "1S3.255.271.K", newCar);
+        /*
+         * Uncomment this line to see rollback behaviour.
+         */
+        //controlUnitService.createControlUnit("ECU", "to_short", newCar);
+
+        LOG.info("Leaving the 'createCarWithControlUnit()' method");
+
+        return newCar;
     }
 
 

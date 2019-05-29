@@ -36,6 +36,12 @@ public class MainAppRunner implements ApplicationRunner {
         printCarData();
 
 //        printCarAndControlUnitsData();
+
+//        endCarProduction();
+
+//        updateMultipleCarAttributes();
+
+//        createCarWithControlUnit();
     }
 
     private void printCarData() {
@@ -53,6 +59,24 @@ public class MainAppRunner implements ApplicationRunner {
         LOG.info("CONTROL UNITS: {}", car.getControlUnits());
     }
 
+    private void endCarProduction() {
+        Car car = mightyService.endProduction(2);
+
+        LOG.info("PRODUCED CAR: {}", car);
+    }
+
+    private void updateMultipleCarAttributes() {
+        Car car = mightyService.updateMultipleAttributes(4);
+
+        LOG.info("UPDATED CAR: {}", car);
+    }
+
+    private void createCarWithControlUnit() {
+        Car car = mightyService.createCarWithControlUnit();
+
+        LOG.info("CAR: {}", car);
+        LOG.info("CONTROL UNITS: {}", car.getControlUnits());
+    }
 
 
 //    @Autowired
