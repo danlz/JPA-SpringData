@@ -81,4 +81,11 @@ INSERT INTO user_role(user_id, role_id) VALUES (@thanos_user_id, @standard_role_
 INSERT INTO user_role(user_id, role_id) VALUES (@jdoe_user_id, @standard_role_id);
 
 
+INSERT INTO user(username, first_name, last_name) VALUES ('user1', 'User1', null);
+INSERT INTO user(username, first_name, last_name) VALUES ('user2', 'User2', null);
+INSERT INTO user(username, first_name, last_name) VALUES ('user3', 'User3', null);
+INSERT INTO user(username, first_name, last_name) VALUES ('user4', 'User4', null);
+INSERT INTO user(username, first_name, last_name) VALUES ('user5', 'User5', null);
+
+
 COMMIT;

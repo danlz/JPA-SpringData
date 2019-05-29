@@ -99,6 +99,37 @@ public class MightyService {
         return carRepository.searchCars(modelCodePart);
     }
 
+    @Transactional
+    public void appendSuffixToUsername(String usernamePart, String suffix) {
+        User user1 = userRepository.findByUsernameContaining("user1");
+        LOG.info("USER1 BEFORE UPDATE: {}", user1);
+
+        int noOfUpdatedObjects = userRepository.appendSuffixToUsername(usernamePart, suffix);
+        LOG.info("NUMBER OF UPDATED OBJECTS: {}", noOfUpdatedObjects);
+
+        LOG.info("USER1 AFTER UPDATE: {}", user1);
+
+        /*
+         * There is no query executed in this case,
+         * because object with this id is already stored in EntityManager's cache.
+         */
+        User user1ById = userRepository.findById(user1.getId()).get();
+
+        LOG.info("USER1 REFRESHED BY ID: {}", user1ById);
+    }
+
+    @Transactional
+    public void deleteUsers(String usernamePart) {
+        User user1 = userRepository.findByUsernameContaining("user1");
+        LOG.info("USER1 BEFORE DELETE: {}", user1);
+
+        userRepository.deleteByUsernameContaining(usernamePart);
+
+        Optional<User> user1ById = userRepository.findById(user1.getId());
+
+        LOG.info("IS USER1 PRESENT?: {}", user1ById.isPresent());
+    }
+
 
 
 

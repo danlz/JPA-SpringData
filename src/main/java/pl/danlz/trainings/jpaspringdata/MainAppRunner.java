@@ -40,6 +40,12 @@ public class MainAppRunner implements ApplicationRunner {
 //        printQueryResult(mightyService.searchForCarsVersion1("S"));
 //        printQueryResult(mightyService.searchForCarsVersion2("S"));
 
+
+//        mightyService.appendSuffixToUsername("user", "***");
+//
+//        mightyService.deleteUsers("user");
+
+
 //        mightyService.doStuff();
 
 //        printCarData();
