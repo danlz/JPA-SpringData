@@ -32,6 +32,8 @@ public class MainAppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+//        printQueryResult(mightyService.getCarsWithControlUnitSerialNumberPrefix("8P0"));
+
 //        printQueryResult(
 //                mightyService.findCars()
 //        );

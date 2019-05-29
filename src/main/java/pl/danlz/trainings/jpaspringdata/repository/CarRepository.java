@@ -105,4 +105,22 @@ public interface CarRepository extends CrudRepository<Car, Integer> {
                    "where c.modelCode like %:modelCodePart% " +
                    "group by c.id")
     List<CarSearchResultDTO> searchCars(String modelCodePart);
+
+    /**
+     * Finds cars, which have control units with serial number starting with specified prefix.
+     * The result is sorted by VIN in descending order.
+     *
+     * @param serialNumberPrefix serial number prefix
+     * @return cars
+     */
+    List<Car> findDistinctByControlUnitsSerialNumberStartingWithOrderByVinDesc(String serialNumberPrefix);
+
+    /**
+     * Example of a JPQL query, which gets translated into invalid SQL query.
+     */
+    @Query(value = "select new pl.danlz.trainings.jpaspringdata.dto.CarSearchResultDTO(c.id, c.vin, count(c.controlUnits)) " +
+            "from Car c " +
+            "where c.modelCode like %:modelCodePart% " +
+            "group by c.id")
+    List<CarSearchResultDTO> invalidQuery(String modelCodePart);
 }

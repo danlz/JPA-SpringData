@@ -7,7 +7,9 @@ import pl.danlz.trainings.jpaspringdata.entities.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    User findByUsernameContaining(String username);
+    User findByUsername(String username);
+
+    User findByUsernameContaining(String usernamePart);
 
     /**
      * Example of a bulk update operation. The query updates multiple rows in the database.

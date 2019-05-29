@@ -20,7 +20,7 @@ public class Role {
      *
      * This property is package protected, so that the {@code User} class can access it.
      */
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "roles")
     List<User> users = new ArrayList<>();
 
 
