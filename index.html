@@ -1,0 +1,166 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>JPA - Spring Data</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>JPA - Spring Data</h1>
+					<p>Leszek Zając</p>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Introduction</h2>
+					</section>
+					<section>
+						<h3>Environment</h3>
+						<p>
+							<ul>
+								<li>JDK 8</li>
+								<li>Maven</li>
+								<li>Git Client</li>
+								<li>MySQL Server 8</li>
+								<li>MySQL Client</li>
+								<li>IntelliJ IDEA Community Edition</li>
+							</ul>
+						</p>
+					</section>
+					<section>
+						<h3>Information</h3>
+						<p>Javadocs in code explain how things work</p>
+						<p>The 'recreate-db' script drops and creates the database from scratch</p>
+						<p>Associations in the object world, relations in the relational world</p>
+					</section>
+					<section>
+						<h3>Examples and Exercises</h3>
+						<p>Each topic is placed on a separate branch in the Git repository</p>
+						<p>Each part ends with an exercise - you can commit or stash your solutions</p>
+					</section>
+				</section>
+				
+				<section>
+					<h3>JPA vs Hibernate</h3>
+					<p>JPA is a specification of a standarized API for accessing a database.</p>
+					<p>Hibernate is an implementation of this API (JPA provider).</p>
+					<br/>
+					<p><a href="https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#architecture">Architecture</a></p>
+				</section>
+				
+				<section>
+					<h3>Spring Data vs JPA</h3>
+					<p>Spring Data provides consistent programming model (not an API) for accessing a data store, but also supports store specific features.</p>
+					<br/>
+					<p><a href="https://stackoverflow.com/questions/20978739/how-does-spring-data-jpa-relate-to-jpa-persistence-providers/21002625#21002625">What is Spring Data?</a></p>
+				</section>
+				
+				<section>
+					<h3>Naming strategies</h3>
+					<p>Naming strategy tells how the names from the object model are mapped to the database names.</p>
+					<br/>
+					<p><a href="https://stackoverflow.com/questions/41267416/hibernate-5-naming-strategy-examples/46448045#46448045">Hibernate naming strategy examples</a></p>
+					<p><a href="https://www.baeldung.com/hibernate-field-naming-spring-boot">Spring Boot naming strategies</a></p>
+				</section>
+				
+				<section>
+					<section>
+						<h3>Transactions</h3>
+						<h4>Unit of work</h4>
+						<p>Unit of work groups (database) operations, that should be executed together.</p>
+						<br/>
+						<p><a href="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html_single/#transactions">Transactions</a></p>
+					</section>
+					<section>
+						<h3>Transactions</h3>
+						<h4>EntityManager per request pattern</h4>
+						<img data-src="images/EntityManager-per-request.png">
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h3>Queries</h3>
+						<h4>Derived queries</h4>
+						<br/>
+						<p><a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-creation">Method name conventions</a></p>
+						<p><a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation">Derived query keywords</a></p>
+					</section>
+					<section>
+						<h3>Queries</h3>
+						<h4>JPQL queries</h4>
+						<br/>
+						<p><a href="https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#hql">HQL and JPQL</a></p>
+					</section>
+					<section>
+						<h3>Queries</h3>
+						<h4>Modifying queries</h4>
+						<br/>
+						<p><a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.modifying-queries">Modifying Queries</a></p>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h3>Testing</h3>
+						<p>What should we test?</p>
+					</section>
+					<section>
+						<h3>Testing</h3>
+						<ul>
+							<li>derived queries</li>
+							<li>named queries</li>
+							<li>mappings</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<h3>Q & A<h3>
+				</section>
+				
+				<section>
+					<h3>Thanks</h3>
+					<iframe src="https://giphy.com/embed/upg0i1m4DLe5q" width="480" height="361" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+					<p><small><a href="https://giphy.com/gifs/thats-all-folks-upg0i1m4DLe5q">via GIPHY</a></small></p>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
